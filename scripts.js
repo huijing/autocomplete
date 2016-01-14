@@ -5,12 +5,24 @@ void 0===c?d&&"get"in d&&null!==(e=d.get(a,b))?e:(e=n.find.attr(a,b),null==e?voi
 
 var shows;
 var showTitles = [];
+var timeInMs = Date.now();
+var searchQuery = { 
+            c: '',
+            per_page: '5',
+            with_people: 'true',
+            with_paywell: '1',
+            app: '100266a',
+            t: timeInMs,
+        };
 
 function load_lookup (callback) {
     showTitles = [];
 
     $.ajax({
-        url: 'https://api.viki.io/v4/search.json?c=b&per_page=5&with_people=true&with_paywall=1&app=100266a&t=1440586215',
+        url: 'https://api.viki.io/v4/search.json',
+        type: 'GET',
+        dataType: 'json',
+        data: searchQuery,
     })
     .done(function(data) {
         shows = data;
@@ -37,6 +49,7 @@ function init_lookup () {
             var results;
             var resultsList = $('#resultsList');
             resultsList.html('');
+            searchQuery.c = search_val;
 
             load_lookup({
                 complete: function() {
